@@ -10,7 +10,8 @@ public class CustomArrayList<T> implements CustomList<T> {
 	@Override
 	public boolean add(T item) {
 		if (this.size >= this.getSize()) this.resize();
-		this.items[this.size++] = item;
+		if (this.items[size] == null) this.items[size] = item;
+		this.size++;
 		return true;
 	}
 
@@ -49,18 +50,17 @@ public class CustomArrayList<T> implements CustomList<T> {
 
 	@Override
 	public T remove(int index) throws IndexOutOfBoundsException {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
-        }
+        if (index < 0 || index >= this.size) 
+        	throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.size);
 
         T item = (T) this.items[index];
 
-        for (int i = index; i < size - 1; i++) {
+        for (int i = index; i < this.size - 1; i++) {
             this.items[i] = this.items[i + 1];
         }
 
-        this.items[size - 1] = null;
-        size--;
+        this.items[this.size - 1] = null;
+        this.size--;
 
         return item;
 	}
