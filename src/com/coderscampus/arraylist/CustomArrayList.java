@@ -5,68 +5,68 @@ import java.util.Arrays;
 public class CustomArrayList<T> implements CustomList<T> {
 
 	private Object[] items = new Object[10];
-	private int size = 0; // Count the number of item to add
+	private int count = 0; // Count the number of item to add
 
 	@Override
 	public boolean add(T item) {
-		if (this.size >= this.getSize()) this.resize();
-		if (this.items[size] == null) this.items[size] = item;
-		this.size++;
+		if (count >= getSize()) resize();
+		if (items[count] == null) items[count] = item;
+		count++;
 		return true;
 	}
 
 	@Override
 	public boolean add(int index, T item) throws IndexOutOfBoundsException {
-		if (index >= this.getSize() || index < 0) {
-			throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.getSize());
+		if (index >= getSize() || index < 0) {
+			throw new IndexOutOfBoundsException("Index: " + index + ", count: " + getSize());
 		}
 		
-		if (this.size >= this.getSize()) this.resize();
+		if (count >= getSize()) resize();
 		
-		for (int i = this.size; i > index; i--) {
-			this.items[i] = this.items[i - 1];
+		for (int i = count; i > index; i--) {
+			items[i] = items[i - 1];
 		}
 		
-		this.items[index] = item;
-		size++;
+		items[index] = item;
+		count++;
  		
 		return true;
 	}
 	
 	@Override
 	public int getSize() {
-		return this.size;
+		return items.length;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public T get(int index) {
-		if (index >= this.getSize() || index < 0) {
-			throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.getSize());
+		if (index >= getSize() || index < 0) {
+			throw new IndexOutOfBoundsException("Index: " + index + ", count: " + getSize());
 		}
 
-		return (T) this.items[index];
+		return (T) items[index];
 	}
 
 	@Override
 	public T remove(int index) throws IndexOutOfBoundsException {
-        if (index < 0 || index >= this.size) 
-        	throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.size);
+        if (index < 0 || index >= count)
+        	throw new IndexOutOfBoundsException("Index: " + index + ", count: " + count);
 
-        T item = (T) this.items[index];
+        T item = (T) items[index];
 
-        for (int i = index; i < this.size - 1; i++) {
-            this.items[i] = this.items[i + 1];
+        for (int i = index; i < count - 1; i++) {
+            items[i] = items[i + 1];
         }
 
-        this.items[this.size - 1] = null;
-        this.size--;
+        items[count - 1] = null;
+        count--;
 
         return item;
 	}
 
 	private void resize() {		
-		this.items = Arrays.copyOf(this.items, this.items.length * 2);
+		items = Arrays.copyOf(items, items.length * 2);
 	}
 
 }
