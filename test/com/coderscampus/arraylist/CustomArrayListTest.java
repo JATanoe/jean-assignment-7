@@ -41,6 +41,25 @@ class CustomArrayListTest {
 	}
 
 	@Test
+	void should_add_100001_items() {
+		// Arrange
+		CustomList<String> customList = new CustomArrayList<>();
+		
+		// Act
+//		customList.add("Do");
+//		customList.add("Mi");
+//		customList.add("Fa");
+//		customList.add(1, "Re");
+
+		for (int i = 0; i < 100001; i++) {
+			customList.add(i, "Element " + i);
+		}
+
+		// Assert
+		assertEquals(100001, customList.getSize());
+	}
+
+	@Test
 	void should_get_list_size() {
 		// Arrange
 		CustomList<String> customList = new CustomArrayList<>();
@@ -76,18 +95,29 @@ class CustomArrayListTest {
 		CustomList<String> customList = new CustomArrayList<>();
 
 		// Act
-		customList.add("Do");
-		customList.add("Re");
-		customList.add("Mi");
-		customList.add("Fa");
-		String expectedResult = customList.remove(2);
+		customList.add("Element at index 0");
+		customList.add("Element at index 1");
+		customList.add("Element at index 2");
+		customList.add("Element at index 3");
+		customList.add("Element at index 4");
+		customList.add("Element at index 5");
+		customList.add("Element at index 6");
+		customList.add("Element at index 7");
+		
+		String expectedResult1 = customList.remove(2);
+		String expectedResult2 = customList.remove(5);
+		String expectedResult3 = customList.remove(5);
 
 		// Assert
-		assertEquals("Mi", expectedResult);
-		assertEquals("Do", customList.get(0));
-		assertEquals("Re", customList.get(1));
-		assertEquals("Fa", customList.get(2));
-		assertEquals(3, customList.getSize());
+		assertEquals("Element at index 2", expectedResult1);
+		assertEquals("Element at index 6", expectedResult2);
+		assertEquals("Element at index 7", expectedResult3);
+		assertEquals("Element at index 0", customList.get(0));
+		assertEquals("Element at index 1", customList.get(1));
+		assertEquals("Element at index 3", customList.get(2));
+		assertEquals("Element at index 4", customList.get(3));		
+		assertEquals("Element at index 5", customList.get(4));
+		assertEquals(5, customList.getSize());
 	}
 
 }

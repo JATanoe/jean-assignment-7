@@ -5,44 +5,44 @@ import java.util.Arrays;
 public class CustomArrayList<T> implements CustomList<T> {
 
 	private Object[] items = new Object[10];
-	private int count = 0; // Count the number of item to add
+	private int size = 0; // Count the number of item to add
 
 	@Override
 	public boolean add(T item) {
-		if (count >= getSize()) resize();
-		if (items[count] == null) items[count] = item;
-		count++;
+		setCapacity();
+		items[size++] = item;
+
 		return true;
 	}
 
 	@Override
 	public boolean add(int index, T item) throws IndexOutOfBoundsException {
-		if (index >= getSize() || index < 0) {
-			throw new IndexOutOfBoundsException("Index: " + index + ", count: " + getSize());
+		if (index < 0 || index > size) {
+			throw new IndexOutOfBoundsException("Index: " + index + ", size: " + size);
 		}
 		
-		if (count >= getSize()) resize();
+		setCapacity();
 		
-		for (int i = count; i > index; i--) {
+		for (int i = size; i > index; i--) {
 			items[i] = items[i - 1];
 		}
-		
 		items[index] = item;
-		count++;
+		
+		size++;
  		
 		return true;
 	}
 	
 	@Override
 	public int getSize() {
-		return items.length;
+		return size;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public T get(int index) {
 		if (index >= getSize() || index < 0) {
-			throw new IndexOutOfBoundsException("Index: " + index + ", count: " + getSize());
+			throw new IndexOutOfBoundsException("Index: " + index + ", size: " + getSize());
 		}
 
 		return (T) items[index];
@@ -50,23 +50,26 @@ public class CustomArrayList<T> implements CustomList<T> {
 
 	@Override
 	public T remove(int index) throws IndexOutOfBoundsException {
-        if (index < 0 || index >= count)
-        	throw new IndexOutOfBoundsException("Index: " + index + ", count: " + count);
+        if (index < 0 || index >= size) {
+        	throw new IndexOutOfBoundsException("Index: " + index + ", size: " + size);
+        }
 
         T item = (T) items[index];
 
-        for (int i = index; i < count - 1; i++) {
+        for (int i = index; i < size - 1; i++) {
             items[i] = items[i + 1];
         }
 
-        items[count - 1] = null;
-        count--;
+        items[size - 1] = null;
+        size--;
 
         return item;
 	}
 
-	private void resize() {		
-		items = Arrays.copyOf(items, items.length * 2);
+	private void setCapacity() {		
+		if (size == items.length) {
+			items = Arrays.copyOf(items, items.length * 2);
+		}
 	}
 
 }
