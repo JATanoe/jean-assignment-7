@@ -41,7 +41,7 @@ public class CustomArrayList<T> implements CustomList<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public T get(int index) {
-		if (index >= getSize() || index < 0) {
+		if (index < 0 || index >= size) {
 			throw new IndexOutOfBoundsException("Index: " + index + ", size: " + getSize());
 		}
 
